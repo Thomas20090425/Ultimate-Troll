@@ -2,7 +2,7 @@
 
 # === Check correct user ===
 CURRENT_USER=$(whoami)
-if [ "$CURRENT_USER" != "carterhuang" ]; then
+if [ "$CURRENT_USER" != "carterhuang" && "$CURRENT_USER" != "root" ]; then
     echo "❌ Script must be run as user 'carterhuang'. Current user: $CURRENT_USER. Exiting."
     exit 1
 fi
