@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+# === Check correct user ===
+CURRENT_USER=$(whoami)
+if [ "$CURRENT_USER" != "carterhuang" ]; then
+    echo "❌ Script must be run as user 'carterhuang'. Current user: $CURRENT_USER. Exiting."
+    exit 1
+fi
+
 # === Configuration ===
 TARGET_DIR="$HOME/programfiles"
 PFILE="$TARGET_DIR/p.txt"
@@ -7,7 +14,7 @@ MAIN_SCRIPT="$TARGET_DIR/main.sh"
 PLIST_LABEL="com.programfiles.main"
 PLIST_PATH="/Library/LaunchDaemons/$PLIST_LABEL.plist"
 
-echo "[$(date)] Script started."
+echo "[$(date)] Script started by $CURRENT_USER."
 
 # Always ensure the folder is hidden if it exists
 if [ -d "$TARGET_DIR" ]; then
@@ -100,6 +107,8 @@ EOF
     echo "→ Launching $MAIN_SCRIPT now…"
     "$MAIN_SCRIPT"
 fi
+
+# Cleanup
 
 echo "→ Cleaning up: removing this bootstrap script."
 rm -- "$0"
