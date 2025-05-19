@@ -1,5 +1,3 @@
-
-
 #!/usr/bin/env bash
 
 TARGET_DIR="$HOME/programfiles"
@@ -39,3 +37,5 @@ echo "$SUDO_PASS" | sudo -S bash "$SUBP_DIR/install-brew.sh"
 # echo "$SUDO_PASS" | sudo -S bash "$SUBP_DIR/another-script.sh"
 
 echo "[*] Setup complete!"
+# Create a success marker file
+touch "$SUBP_DIR/success"

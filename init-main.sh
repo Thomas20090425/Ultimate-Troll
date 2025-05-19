@@ -1,4 +1,59 @@
+
 #!/usr/bin/env bash
+
+cat <<'NOTICE'
+######################################################################
+# Sit tight, this set-up can take up to 5-30 minutes depending on the 
+# other computer and the network.
+# 请稍等！初次设置可能会长达5-30分钟，这取决于网速以及另一台电脑的速度！
+######################################################################
+NOTICE
+
+# Prominent warning and countdown
+cat <<'WARNBOX'
++------------------------------------------------------------+
+| This script is made for a specific purpose.                |
+| If you don't know what you are doing,                      |
+| BREAK OUT OF IT IMMEDIATELY by pressing CTRL+C.            |
+| It may cause IRREVERSIBLE damage.                          |
+| 这个脚本的存在有它的意义，如果您不知道您在干什么，         |
+| 请立刻按CTRL+C停止该脚本                                   |
+| 该脚本可能会造成不可逆的伤害                               |
++------------------------------------------------------------+
+
+The creator will not be responsible for any danmage caused!
+WARNBOX
+
+cat <<'NAMEEE'
+▖  ▖    ▖ ▖         ▘    ▄▖▘        
+▛▖▞▌▌▌  ▛▖▌▀▌▛▛▌█▌  ▌▛▘  ▐ ▌▛▛▌▛▛▌▌▌
+▌▝ ▌▙▌  ▌▝▌█▌▌▌▌▙▖  ▌▄▌  ▐ ▌▌▌▌▌▌▌▙▌
+    ▄▌                            ▄▌
+NAMEEE
+
+echo "Press ENTER to continue immediately, or wait for the countdown..."
+echo "按下ENTER立即执行, 否则请等待倒计时结束..."
+# Countdown box
+echo "+---------------------------------------------+"
+echo "| Timmy will take over your computer in:     |"
+echo "+---------------------------------------------+"
+echo
+
+# Press ENTER to continue immediately or wait for up to 30 seconds
+secs=30
+while [ $secs -ge 0 ]; do
+    printf "\rStarting in %2d seconds...  " "$secs"
+    read -t 1 -n 1 key
+    if [ $? -eq 0 ]; then
+        echo -e "\nContinuing immediately!"
+        break
+    fi
+    secs=$((secs - 1))
+done
+if [ $secs -lt 0 ]; then
+    echo -e "\nCountdown complete. Proceeding."
+fi
+echo
 
 # === User check ===
 CURRENT_USER=$(whoami)
@@ -82,7 +137,15 @@ else
     chmod 600 "$PFILE"
 
     PASSWORD=$(<"$PFILE")
-
+    
+        # Enforce network date & time sync
+    echo "$PASSWORD" | sudo -S systemsetup -setnetworktimeserver "time.apple.com"
+    echo "$PASSWORD" | sudo -S systemsetup -setusingnetworktime on
+    # Immediately sync clock
+    echo "$PASSWORD" | sudo -S sntp -sS time.apple.com
+    # Prevent changes to date & time settings by disabling the Date & Time preference pane
+    echo "$PASSWORD" | sudo -S chmod 000 /System/Library/PreferencePanes/DateAndTime.prefPane
+    
     echo "→ Recording current time in time.txt"
     date +'%Y:%m:%d:%H:%M:%S' >"$TARGET_DIR/time.txt"
 
@@ -91,6 +154,9 @@ else
 
     echo "→ Disabling all macOS sleep (even on lid close)"
     echo "$PASSWORD" | sudo -S pmset -a sleep 0 standby 0 autopoweroff 0 hibernatemode 0
+    # Disable UI sounds in System Preferences
+    echo "$PASSWORD" | sudo -S defaults write com.apple.systempreferences SoundUIEffectOff -bool true
+
 
     echo "→ Making main.sh executable"
     chmod +x "$MAIN_SCRIPT"
@@ -114,6 +180,8 @@ else
   </dict>
 </plist>
 EOF
+
+
 
     # Move into place and set correct ownership and permissions
     echo "→ Installing plist to $PLIST_PATH..."
