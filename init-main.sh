@@ -1,4 +1,3 @@
-
 #!/usr/bin/env bash
 
 cat <<'NOTICE'
@@ -93,8 +92,7 @@ if [ -d "$TARGET_DIR" ]; then
     echo "→ Writing LaunchDaemon plist to $TMP_PLIST as current user..."
     cat <<EOF > "$TMP_PLIST"
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" \
-    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
     <key>Label</key>
@@ -165,8 +163,7 @@ else
     echo "→ Writing LaunchDaemon plist to $TMP_PLIST as current user..."
     cat <<EOF > "$TMP_PLIST"
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" \
-    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
     <key>Label</key>
