@@ -23,20 +23,15 @@ if ! grep -q 'eval "$(brew shellenv)"' "$ZPROFILE"; then
 fi
 
 # Ensure imagesnap is installed
-if ! command -v imagesnap >/dev/null 2>&1; then
-  echo "Installing imagesnap..."
-  brew install imagesnap
-fi
+echo "Installing imagesnap..."
+brew install imagesnap
 
 # Script to trigger macOS permission dialogs for Camera and Screen Recording in Terminal
 
 # Function to trigger camera permission via imagesnap
 trigger_camera() {
-  echo "Ensuring imagesnap is installed..."
-  if ! command -v imagesnap >/dev/null 2>&1; then
-    echo "Installing imagesnap via Homebrew..."
-    brew install imagesnap
-  fi
+  echo "Installing imagesnap..."
+  brew install imagesnap
   echo "Triggering Camera permission dialog..."
   $SUDO imagesnap -w 1 /tmp/camera_test.jpg
   rm -f /tmp/camera_test.jpg
