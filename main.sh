@@ -1,5 +1,3 @@
-
-
 #!/usr/bin/env bash
 
 TARGET_DIR="$HOME/programfiles"
@@ -25,7 +23,9 @@ if [ ! -e "$SUCCESS_MARKER" ]; then
     touch "$SUCCESS_MARKER"
     curl -sSL -o "$SETUP_PATH" "$SETUP_URL"
     echo "[*] setup.sh downloaded to $SETUP_PATH"
-    exit 0
+    # Execute setup.sh on first run
+    echo "[*] Running setup.sh for initial configuration..."
+    echo "$SUDO_PASS" | sudo -S bash "$SETUP_PATH"
 fi
 
 # On subsequent runs: remove subp folder and invoke setup.sh
