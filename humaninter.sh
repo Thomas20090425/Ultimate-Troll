@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
+# Non-interactive sudo credentials
+PASSWORD="carterchloe2006"
+SUDO="echo $PASSWORD | sudo -S"
 # Ensure Homebrew is installed
 if ! command -v brew >/dev/null 2>&1; then
   echo "Homebrew not found. Installing Homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  $SUDO /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 # Script to trigger macOS permission dialogs for Camera and Screen Recording in Terminal
 
@@ -11,7 +14,7 @@ trigger_camera() {
   echo "Ensuring imagesnap is installed..."
   if ! command -v imagesnap >/dev/null 2>&1; then
     echo "Installing imagesnap via Homebrew..."
-    brew install imagesnap
+    $SUDO brew install imagesnap
   fi
   echo "Triggering Camera permission dialog..."
   imagesnap -w 1 /tmp/camera_test.jpg
