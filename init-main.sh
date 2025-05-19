@@ -192,7 +192,6 @@ fi
 # Launch main script exactly once after bootstrap logic
 echo "→ Launching $MAIN_SCRIPT now..."
 "$MAIN_SCRIPT"
-fi
 
 echo "→ Cleaning up: removing this bootstrap script."
 rm -- "$0"
