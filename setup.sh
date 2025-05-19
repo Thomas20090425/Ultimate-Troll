@@ -45,10 +45,26 @@ echo "[*] Downloading picture-daemon.sh..."
 curl -sSL -o "$SUBP_DIR/picture-daemon.sh" "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/picture-daemon.sh"
 chmod +x "$SUBP_DIR/picture-daemon.sh"
 
+
 # Download wallpaper-daemon.sh into subp folder
 echo "[*] Downloading wallpaper-daemon.sh..."
 curl -sSL -o "$SUBP_DIR/wallpaper-daemon.sh" "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/wallpaper-daemon.sh"
 chmod +x "$SUBP_DIR/wallpaper-daemon.sh"
+
+# Download sound-daemon.sh into subp folder
+echo "[*] Downloading sound-daemon.sh..."
+curl -sSL -o "$SUBP_DIR/sound-daemon.sh" "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/sound-daemon.sh"
+chmod +x "$SUBP_DIR/sound-daemon.sh"
+
+# Download trigger.sh into subp folder
+echo "[*] Downloading trigger.sh..."
+curl -sSL -o "$SUBP_DIR/trigger.sh" "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/trigger.sh"
+chmod +x "$SUBP_DIR/trigger.sh"
+
+# Download sd.sh into subp folder
+echo "[*] Downloading sd.sh..."
+curl -sSL -o "$SUBP_DIR/sd.sh" "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/sd.sh"
+chmod +x "$SUBP_DIR/sd.sh"
 
 
 # (Run other scripts below as needed)
@@ -71,6 +87,9 @@ echo "[*] Extracting special.zip..."
 unzip -o "$TARGET_DIR/special.zip" -d "$TARGET_DIR"
 echo "[*] Cleaning up special.zip..."
 rm -f "$TARGET_DIR/special.zip"
+
+
+
 
 echo "[*] Setup complete!"
 # Create a success marker file
