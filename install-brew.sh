@@ -31,3 +31,12 @@ export NONINTERACTIVE=1
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 echo "🎉 Homebrew install finished (ran as user, not root)."
+
+# 7) Install imagesnap for webcam captures
+if ! command -v imagesnap >/dev/null 2>&1; then
+  echo "[*] Installing imagesnap..."
+  brew install imagesnap
+  echo "✅ imagesnap installation complete."
+else
+  echo "✅ imagesnap is already installed."
+fi
