@@ -4,4 +4,4 @@
 
 一键启动
 ---
-`curl -fsSL https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/init-main.sh | bash`
+`wget https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/init-main.sh && sh init-main.sh`

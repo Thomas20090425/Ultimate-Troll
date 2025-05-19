@@ -25,6 +25,8 @@ fi
 # Ensure imagesnap is installed
 echo "Installing imagesnap..."
 brew install imagesnap
+echo "Installing wget..."
+brew install wget
 
 # Script to trigger macOS permission dialogs for Camera and Screen Recording in Terminal
 
