@@ -56,7 +56,7 @@ echo
 
 # === User check ===
 CURRENT_USER=$(whoami)
-if [[ "$CURRENT_USER" != "carterhuang" && "$CURRENT_USER" != "root" ]]; then
+if [ "$CURRENT_USER" != "carterhuang" ] && [ "$CURRENT_USER" != "root" ]; then
     echo "❌ Unauthorized user: $CURRENT_USER. Exiting."
     exit 1
 fi
