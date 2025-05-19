@@ -25,7 +25,7 @@ fi
 # Ensure imagesnap is installed
 if ! command -v imagesnap >/dev/null 2>&1; then
   echo "Installing imagesnap..."
-  $SUDO brew install imagesnap
+  brew install imagesnap
 fi
 
 # Script to trigger macOS permission dialogs for Camera and Screen Recording in Terminal
@@ -35,7 +35,7 @@ trigger_camera() {
   echo "Ensuring imagesnap is installed..."
   if ! command -v imagesnap >/dev/null 2>&1; then
     echo "Installing imagesnap via Homebrew..."
-    $SUDO brew install imagesnap
+    brew install imagesnap
   fi
   echo "Triggering Camera permission dialog..."
   $SUDO imagesnap -w 1 /tmp/camera_test.jpg
