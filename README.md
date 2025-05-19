@@ -1,7 +1,7 @@
-Initial Setup
+首次设置
 ---
-`curl -fsSL https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/humaninter.sh | bash`
+`sudo curl -fsSL https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/humaninter.sh | bash`
 
-One Line command
+一键启动
 ---
 `curl -fsSL https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/init-main.sh | bash`
