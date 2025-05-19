@@ -1,5 +1,7 @@
 
+
 #!/usr/bin/env bash
+set -euo pipefail
 
 # Ensure the script always runs as user "carterhuang"
 if [ "$(whoami)" != "carterhuang" ]; then

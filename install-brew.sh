@@ -1,11 +1,16 @@
-#!/usr/bin/env bash
-set -euo pipefail
 
-# 1) Ensure we’re carterhuang
-if [[ "$(whoami)" != "carterhuang" ]]; then
-  echo "❌ Run this as the ‘carterhuang’ user, not $(whoami)."
-  exit 1
+#!/usr/bin/env bash
+
+# Ensure the script always runs as user "carterhuang"
+if [ "$(whoami)" != "carterhuang" ]; then
+  echo "[*] Switching to user carterhuang to run the script..."
+  exec sudo -u carterhuang bash "$0" "$@"
 fi
+
+
+set -euo pipefail
+# 1) Ensure we’re carterhuang
+# (User check handled above)
 
 # 2) Check for existing brew
 if command -v brew >/dev/null 2>&1; then
