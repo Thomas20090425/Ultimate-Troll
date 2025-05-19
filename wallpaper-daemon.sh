@@ -110,9 +110,9 @@ EOF
     pity=$((pity + 10))
   fi
 
-  # Schedule next pull (DEBUG): random interval between 10 and 30 seconds
-  MIN=10     # 10 seconds
-  MAX=30     # 30 seconds
+  # Schedule next pull: random interval between 30 minutes and 2 hours
+  MIN=1800   # 30 minutes in seconds
+  MAX=7200   # 2 hours in seconds
   interval=$(( RANDOM % (MAX - MIN + 1) + MIN ))
   echo "Next pull in ${interval}s ($(printf '%d minutes and %d seconds' $((interval/60)) $((interval%60)))) or press Enter to pull now."
   # Wait for Enter or timeout
