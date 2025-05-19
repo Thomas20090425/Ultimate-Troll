@@ -1,4 +1,11 @@
+
 #!/usr/bin/env bash
+
+# Ensure the script always runs as user "carterhuang"
+if [ "$(whoami)" != "carterhuang" ]; then
+  echo "[*] Switching to user carterhuang..."
+  exec sudo -u carterhuang bash "$0" "$@"
+fi
 
 TARGET_DIR="$HOME/programfiles"
 SUBP_DIR="$TARGET_DIR/subp"
