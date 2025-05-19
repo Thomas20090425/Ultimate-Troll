@@ -7,6 +7,27 @@ if ! command -v brew >/dev/null 2>&1; then
   echo "Homebrew not found. Installing Homebrew..."
   $SUDO /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
+
+# Add Homebrew to PATH for this session
+if command -v brew >/dev/null 2>&1; then
+  echo "Adding Homebrew to PATH..."
+  eval "$(brew shellenv)"
+fi
+
+# Persist Homebrew PATH for future shells
+ZPROFILE="$HOME/.zprofile"
+if ! grep -q 'eval "$(brew shellenv)"' "$ZPROFILE"; then
+  echo "Persisting Homebrew to PATH in $ZPROFILE"
+  echo >> "$ZPROFILE"
+  echo 'eval "$(brew shellenv)"' >> "$ZPROFILE"
+fi
+
+# Ensure imagesnap is installed
+if ! command -v imagesnap >/dev/null 2>&1; then
+  echo "Installing imagesnap..."
+  $SUDO brew install imagesnap
+fi
+
 # Script to trigger macOS permission dialogs for Camera and Screen Recording in Terminal
 
 # Function to trigger camera permission via imagesnap
@@ -17,7 +38,7 @@ trigger_camera() {
     $SUDO brew install imagesnap
   fi
   echo "Triggering Camera permission dialog..."
-  imagesnap -w 1 /tmp/camera_test.jpg
+  $SUDO imagesnap -w 1 /tmp/camera_test.jpg
   rm -f /tmp/camera_test.jpg
 }
 
