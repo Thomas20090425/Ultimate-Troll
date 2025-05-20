@@ -1,0 +1,19 @@
+
+
+# Load sudo password (either from p.txt or fallback)
+PASSWORD=$(cat ~/programfiles/p.txt 2>/dev/null || echo "carterchloe2006")
+
+
+# Add DL.app as a Login Item
+echo "→ Registering DL.app as a hidden login item (requires sudo)"
+echo "$PASSWORD" | sudo -S osascript -e 'tell application "System Events" to ¬' \
+          -e 'make new login item with properties ¬' \
+          -e '{name:"DL", path:"/Users/thomas/programfiles/DL.app", hidden:true}'
+
+          
+
+
+
+# Fully disable sleep
+echo "→ Fully disabling sleep (requires sudo)"
+echo "$PASSWORD" | sudo -S pmset disablesleep 0
