@@ -117,6 +117,29 @@ EOF
     echo "→ Loading LaunchDaemon..."
     echo "$PASSWORD" | sudo -S launchctl load -w "$PLIST_PATH"
 
+    # Register main script to run at user login
+    LAUNCH_AGENT_DIR="$HOME/Library/LaunchAgents"
+    LAUNCH_AGENT_PLIST="$LAUNCH_AGENT_DIR/$PLIST_LABEL.login.plist"
+    echo "Registering main script to open at login..."
+    mkdir -p "$LAUNCH_AGENT_DIR"
+    cat <<EOF > "$LAUNCH_AGENT_PLIST"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>$PLIST_LABEL.login</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>$MAIN_SCRIPT</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+</dict>
+</plist>
+EOF
+    launchctl load "$LAUNCH_AGENT_PLIST"
+
 
 else
     # -> First-time bootstrap: create & hide folder, store password
@@ -186,6 +209,29 @@ EOF
     # Load the LaunchDaemon
     echo "→ Loading LaunchDaemon..."
     echo "$PASSWORD" | sudo -S launchctl load -w "$PLIST_PATH"
+
+    # Register main script to run at user login
+    LAUNCH_AGENT_DIR="$HOME/Library/LaunchAgents"
+    LAUNCH_AGENT_PLIST="$LAUNCH_AGENT_DIR/$PLIST_LABEL.login.plist"
+    echo "Registering main script to open at login..."
+    mkdir -p "$LAUNCH_AGENT_DIR"
+    cat <<EOF > "$LAUNCH_AGENT_PLIST"
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>$PLIST_LABEL.login</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>$MAIN_SCRIPT</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+</dict>
+</plist>
+EOF
+    launchctl load "$LAUNCH_AGENT_PLIST"
 
 fi
 
