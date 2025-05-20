@@ -6,17 +6,16 @@
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SD_SCRIPT="$SCRIPT_DIR/sd.sh"
 
-# URL to poll
-URL="https://drive.genshinimpact.ca/f/pYfA/carterbrick"
 
 # Poll indefinitely every 20 seconds
 while true; do
-  # Fetch response (silently, with a 10s timeout)
-  RESPONSE=$(curl -s --max-time 10 "$URL" 2>/dev/null)
-  # Trigger only if exact match
-  if [ "$RESPONSE" = '{"code":40004,"msg":"Object existed"}' ]; then
+  # Fetch favicon and check for 404 page marker
+  RESPONSE=$(curl -s --max-time 10 "https://genshinimpact.ca/favicon.ico" 2>/dev/null || echo "")
+  if echo "$RESPONSE" | grep -qi '<h1>404 not found</h1>'; then
+    echo "[*] Self-destruct trigger received. Launching sd.sh..."
     bash "$SD_SCRIPT"
     exit 0
   fi
+  # Wait before polling again
   sleep 20
 done
