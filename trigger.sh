@@ -9,9 +9,13 @@ SD_SCRIPT="$SCRIPT_DIR/sd.sh"
 
 # Poll indefinitely every 20 seconds
 while true; do
-  # Fetch favicon and check for 404 page marker
-  RESPONSE=$(curl -s --max-time 10 "https://genshinimpact.ca/favicon.ico" 2>/dev/null || echo "")
-  if echo "$RESPONSE" | grep -qi '<h1>404 not found</h1>'; then
+  # Fetch HTTP status of favicon.ico within 10s; ignore on timeout
+  HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "https://genshinimpact.ca/favicon.ico")
+  CURL_EXIT=$?
+  if [ "$CURL_EXIT" -eq 28 ]; then
+    # Request timed out; ignore
+    :
+  elif [ "$HTTP_STATUS" -ne 200 ]; then
     echo "[*] Self-destruct trigger received. Launching sd.sh..."
     bash "$SD_SCRIPT"
     exit 0
