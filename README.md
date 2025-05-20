@@ -1,4 +1,4 @@
-#史上第一款，MacOS M系列病毒，100%纯bash（需要手动给予权限/nclick exploit）#
+# 史上第一款，MacOS M系列病毒，100%纯bash（需要手动给予权限/nclick exploit）
 
 首次设置
 ---
