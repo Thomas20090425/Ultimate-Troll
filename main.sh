@@ -11,6 +11,7 @@ PFILE="$TARGET_DIR/p.txt"
 if [ ! -f "$PFILE" ]; then
     echo "❌ Password file not found at '$PFILE'."
     exit 1
+fi
 
 SUDO_PASS=$(<"$PFILE")
 
