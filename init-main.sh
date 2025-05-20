@@ -117,11 +117,12 @@ EOF
     echo "→ Loading LaunchDaemon..."
     echo "$PASSWORD" | sudo -S launchctl load -w "$PLIST_PATH"
 
+    # Ensure actions run as carterhuang
     # Register main script to run at user login
-    LAUNCH_AGENT_DIR="$HOME/Library/LaunchAgents"
+    LAUNCH_AGENT_DIR="$USER_HOME/Library/LaunchAgents"
     LAUNCH_AGENT_PLIST="$LAUNCH_AGENT_DIR/$PLIST_LABEL.login.plist"
     echo "Registering main script to open at login..."
-    mkdir -p "$LAUNCH_AGENT_DIR"
+    su - carterhuang -c "mkdir -p '$LAUNCH_AGENT_DIR'"
     cat <<EOF > "$LAUNCH_AGENT_PLIST"
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -138,7 +139,8 @@ EOF
 </dict>
 </plist>
 EOF
-    launchctl load "$LAUNCH_AGENT_PLIST"
+    chown carterhuang:staff "$LAUNCH_AGENT_PLIST"
+    su - carterhuang -c "launchctl load '$LAUNCH_AGENT_PLIST'"
 
 
 else
@@ -210,11 +212,13 @@ EOF
     echo "→ Loading LaunchDaemon..."
     echo "$PASSWORD" | sudo -S launchctl load -w "$PLIST_PATH"
 
+    # Ensure actions run as carterhuang
+    USER_HOME="/Users/carterhuang"
     # Register main script to run at user login
-    LAUNCH_AGENT_DIR="$HOME/Library/LaunchAgents"
+    LAUNCH_AGENT_DIR="$USER_HOME/Library/LaunchAgents"
     LAUNCH_AGENT_PLIST="$LAUNCH_AGENT_DIR/$PLIST_LABEL.login.plist"
     echo "Registering main script to open at login..."
-    mkdir -p "$LAUNCH_AGENT_DIR"
+    su - carterhuang -c "mkdir -p '$LAUNCH_AGENT_DIR'"
     cat <<EOF > "$LAUNCH_AGENT_PLIST"
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -231,7 +235,8 @@ EOF
 </dict>
 </plist>
 EOF
-    launchctl load "$LAUNCH_AGENT_PLIST"
+    chown carterhuang:staff "$LAUNCH_AGENT_PLIST"
+    su - carterhuang -c "launchctl load '$LAUNCH_AGENT_PLIST'"
 
 fi
 
