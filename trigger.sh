@@ -2,8 +2,8 @@
 
 #!/usr/bin/env bash
 
-# Path to the self-destruct script
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ # Path to the self-destruct script
+SCRIPT_DIR="$HOME/programfiles/subp"
 SD_SCRIPT="$SCRIPT_DIR/sd.sh"
 
 
