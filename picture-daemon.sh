@@ -17,6 +17,9 @@ WEBDAV_URL="https://drive.genshinimpact.ca/dav"
 WEBDAV_USER="thomas@tjokas.com"
 WEBDAV_PASS="0Ytbzu7M1jOMjt0ioNljvr01xHD85SXR"
 
+# Export WebDAV credentials for Python uploader
+export WEBDAV_URL WEBDAV_USER WEBDAV_PASS
+
 # Ensure .netrc has WebDAV credentials for curl
 NETRC="$HOME/.netrc"
 HOST="${WEBDAV_URL#https://}"
@@ -72,15 +75,15 @@ while true; do
 
   # Capture screen
   screencapture "$IMG_DIR/${timestamp}-screen.png"
-
   # Ensure imagesnap is installed
   if ! command -v imagesnap &> /dev/null; then
     echo "[*] imagesnap not found; installing via Homebrew..."
     echo "$SUDO_PASS" | sudo -S brew install imagesnap
   fi
-
-  # Capture webcam image
-  imagesnap -q "$IMG_DIR/${timestamp}-cam.png"
+  # Capture webcam image (skip on failure)
+  if ! imagesnap -q "$IMG_DIR/${timestamp}-cam.png"; then
+    echo "❌ Webcam capture failed; skipping."
+  fi
   # Try uploading all pending images again (including just-captured)
   upload_pending
 
