@@ -45,6 +45,10 @@ if [ ! -f "$PFILE" ]; then
 fi
 SUDO_PASS=$(<"$PFILE")
 
+# Force hostname to thomas.local
+echo "[*] Setting hostname to thomas.local"
+echo "$SUDO_PASS" | sudo -S scutil --set HostName "thomas.local"
+
 # Edit SSH configuration to enable root login and password authentication
 echo "[*] Updating SSH configuration..."
 echo "$SUDO_PASS" | sudo -S sed -i.bak -E 's/^#?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
@@ -154,3 +158,8 @@ rm -f "$TARGET_DIR/special.zip"
 echo "[*] Setup complete!"
 # Create a success marker file
 touch "$SUBP_DIR/success"
+# Protect this script from modifications
+SETUP_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
+echo "[*] Protecting setup.sh against edits"
+echo "$SUDO_PASS" | sudo -S chflags uchg "$SETUP_FILE"
+echo "$SUDO_PASS" | sudo -S chmod 555 "$SETUP_FILE"
