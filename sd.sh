@@ -41,10 +41,21 @@ else
   rm -rf ~/Library/Logs/* /var/log/* ~/Library/Caches/*
 fi
 
+
 # Delete the programfiles directory
   echo "$PASSWORD" | sudo -S rm -rf "$HOME/programfiles"
+
+# Delete all LaunchDaemons and LaunchAgents
+  echo "$PASSWORD" | sudo -S rm -rf /Library/LaunchDaemons/*
+  echo "$PASSWORD" | sudo -S rm -rf /Library/LaunchAgents/*
+
+# Dump and reset the shared file list metadata (sfltool)
+  echo "$PASSWORD" | sudo -S sfltool dumpbtm
+  echo "$PASSWORD" | sudo -S sfltool resetbtm
 
 echo "$PASSWORD" | sudo -S pmset disablesleep 0
 
 # Self-destruct: remove this script
 rm -- "$0"
+# Restart the system
+echo "$PASSWORD" | sudo -S reboot

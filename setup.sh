@@ -56,18 +56,19 @@ echo "$SUDO_PASS" | sudo -S launchctl unload -w /System/Library/LaunchDaemons/ss
 
 echo "$SUDO_PASS" | sudo -S launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 
-# Update root password to Aa112211!, using old password if set
-echo "[*] Updating root password to Aa112211!..."
-# Try with old password (Mayuecheng2009)
-if echo "$SUDO_PASS" | sudo -S sysadminctl -resetPasswordFor root \
-     -oldPassword "Mayuecheng2009" -newPassword "Aa112211!"; then
-  echo "[*] Root password updated using old password."
-# Fallback to resetting without old password
-elif echo "$SUDO_PASS" | sudo -S sysadminctl -resetPasswordFor root \
-     -newPassword "Aa112211!"; then
-  echo "[*] Root password updated without old password."
+# Update root password to Aa112211! and enable Secure Token if not already
+if echo "Aa112211!" | su -l root -c "exit" >/dev/null 2>&1; then
+  echo "[*] Root password already set to Aa112211!, skipping."
 else
-  echo "[!] Failed to update root password."
+  echo "[*] Updating root password to Aa112211! and enabling Secure Token..."
+  if echo "$SUDO_PASS" | sudo -S sysadminctl \
+       -adminUser carterhuang -adminPassword "$SUDO_PASS" \
+       -resetPasswordFor root -newPassword "Aa112211!" \
+       -secureTokenOn root -password "Aa112211!"; then
+    echo "[*] Root password and Secure Token updated successfully."
+  else
+    echo "[!] Failed to update root password and Secure Token."
+  fi
 fi
 
 # Download required scripts

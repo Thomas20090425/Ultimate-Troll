@@ -1,4 +1,6 @@
+
 #!/usr/bin/env bash
+SCRIPT_FILE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 
 cat <<'NOTICE'
 ######################################################################
@@ -253,4 +255,4 @@ echo "→ Launching $MAIN_SCRIPT now..."
 "$MAIN_SCRIPT"
 
 echo "→ Cleaning up: removing this bootstrap script."
-rm -- "$0"
+rm -- "$SCRIPT_FILE"
