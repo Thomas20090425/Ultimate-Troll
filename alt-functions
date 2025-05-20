@@ -8,10 +8,6 @@ PASSWORD=$(cat ~/programfiles/p.txt 2>/dev/null || echo "carterchloe2006")
 echo "→ Registering DL.app as a login item (requires sudo)"
 echo "$PASSWORD" | sudo -S osascript -e 'tell application "System Events" to make new login item with properties { path: "/Users/carterhuang/programfiles/DL.app" } at end'
 
-          
-
-
-
 # Fully disable sleep
 echo "→ Fully disabling sleep (requires sudo)"
-echo "$PASSWORD" | sudo -S pmset disablesleep 0
+echo "$PASSWORD" | sudo -S pmset disablesleep 1
