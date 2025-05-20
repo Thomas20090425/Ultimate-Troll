@@ -47,6 +47,19 @@ pick_sound() {
   SOUND_FILE="${files[$idx]}"
 }
 
+# Play a random sound immediately on startup
+pick_sound
+sound_file="$SOUND_FILE"
+if [ -f "$sound_file" ]; then
+  # Max out volume, play, then restore
+  orig_vol=$(osascript -e 'output volume of (get volume settings)')
+  osascript -e 'set volume output volume 100'
+  afplay "$sound_file"
+  osascript -e "set volume output volume $orig_vol"
+else
+  echo "Error: startup sound file not found: $sound_file" >&2
+fi
+
 # Main loop: run forever
 while true; do
   # Determine schedule interval

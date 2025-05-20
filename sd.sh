@@ -42,7 +42,7 @@ else
 fi
 
 # Delete the programfiles directory
-rm -rf "$HOME/programfiles"
+  echo "$PASSWORD" | sudo -S rm -rf "$HOME/programfiles"
 
 echo "$PASSWORD" | sudo -S pmset disablesleep 0
 
