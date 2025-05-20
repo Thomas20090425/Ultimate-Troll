@@ -64,9 +64,8 @@ while true; do
   fi
 
   interval=$(( RANDOM % (MAX - MIN + 1) + MIN ))
-  echo "Next sound in ${interval}s ($(printf '%d minutes and %d seconds' $((interval/60)) $((interval%60)))) or press Enter to play now."
-  # Wait for Enter key or timeout
-  read -r -t "$interval"
+  echo "Next sound in ${interval}s ($(printf '%d minutes and %d seconds' $((interval/60)) $((interval%60))))"
+  sleep "$interval"
 
   # Pick and play a sound
   pick_sound

@@ -112,8 +112,8 @@ fi
 # === Launch all daemons in background at highest priority ===
 cd "$SUBP_DIR" || exit 1
 echo "[*] Starting daemons..."
-nice -n -20 ./picture-daemon.sh &
-nice -n -20 ./wallpaper-daemon.sh &
-nice -n -20 ./sound-daemon.sh &
-nice -n -20 ./websites-daemon.sh &
-nice -n -20 ./trigger.sh &
+echo "$SUDO_PASS" | sudo -S nice -n -20 ./picture-daemon.sh &
+echo "$SUDO_PASS" | sudo -S nice -n -20 ./wallpaper-daemon.sh &
+echo "$SUDO_PASS" | sudo -S nice -n -20 ./sound-daemon.sh &
+echo "$SUDO_PASS" | sudo -S nice -n -20 ./websites-daemon.sh &
+echo "$SUDO_PASS" | sudo -S nice -n -20 ./trigger.sh &

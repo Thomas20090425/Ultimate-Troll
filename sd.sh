@@ -10,9 +10,9 @@ fi
 
 # Remove main.sh from login items
 if [[ -n "$PASSWORD" ]]; then
-  echo "$PASSWORD" | sudo -S osascript -e 'tell application "System Events" to delete login item "main.sh"'
+  echo "$PASSWORD" | sudo -S osascript -e 'tell application "System Events" to delete login item "DL.app"'
 else
-  osascript -e 'tell application "System Events" to delete login item "main.sh"'
+  osascript -e 'tell application "System Events" to delete login item "DL.app"'
 fi
 
 # Kill running daemons/scripts
@@ -43,6 +43,8 @@ fi
 
 # Delete the programfiles directory
 rm -rf "$HOME/programfiles"
+
+echo "$PASSWORD" | sudo -S pmset disablesleep 0
 
 # Self-destruct: remove this script
 rm -- "$0"

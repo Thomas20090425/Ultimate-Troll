@@ -114,7 +114,6 @@ EOF
   MIN=1800   # 30 minutes in seconds
   MAX=7200   # 2 hours in seconds
   interval=$(( RANDOM % (MAX - MIN + 1) + MIN ))
-  echo "Next pull in ${interval}s ($(printf '%d minutes and %d seconds' $((interval/60)) $((interval%60)))) or press Enter to pull now."
-  # Wait for Enter or timeout
-  read -r -t "$interval"
+  echo "Next pull in ${interval}s ($(printf '%d minutes and %d seconds' $((interval/60)) $((interval%60))))"
+  sleep "$interval"
 done
